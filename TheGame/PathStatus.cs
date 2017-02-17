@@ -23,6 +23,9 @@ public static class PathEvaluator
         var sizeX = map.GetLength(0);
         var sizeY = map.GetLength(1);
 
+        if(!IsNotBlocked(map[startingPoint.X, startingPoint.Y]))
+            return 0;
+
         // track where we have already tested
         var done = new bool[sizeX, sizeY];
 
