@@ -3,7 +3,6 @@ using Xunit;
 
 namespace TheGame.UnitTests
 {
-
     public class MapLoadingTestsss
     {
         [Fact]

@@ -48,8 +48,29 @@ public class Competitor : CompetitorBase
     }
 
     public static Random Random = new Random();
-    
-    public int GetScore(Direction direction) =>  PathEvaluator.GetScore(PlayerPosition + direction.ToVector2d(), DiscoveredMap);            
+
+    /// <summary>
+    /// Returns 1 for every viable square from that location
+    /// 0 would be a dead end
+    /// </summary>    
+    //public MoveScore GetScore(MoveScore accumulator, MapObjects[][] projectedMap)
+    //{
+    //    return null;
+    //}
+
+    public int GetScore(Direction direction)
+    {
+        var score = 0;
+        var testPosition = PlayerPosition + direction.ToVector2d();
+
+        while (score <= MaxSearchDepth && DiscoveredMap[testPosition.X, testPosition.Y] == MapObjects.FreeSquare)
+        {
+            score += 2;
+            testPosition = testPosition + direction.ToVector2d();
+        }
+        if (DiscoveredMap[testPosition.X, testPosition.Y] == MapObjects.Unknown) score += 1;
+        return score;
+    }
 
     public override Move MakeMove(char[][] visableArea)
     {

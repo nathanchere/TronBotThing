@@ -46,6 +46,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="MapObjects.cs" />
     <Compile Include="Move.cs" />
+    <Compile Include="PathStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vector2D.cs" />
   </ItemGroup>
