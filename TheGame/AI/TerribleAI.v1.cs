@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-public class Competitor : CompetitorBase
+public class CompetitorV1 : CompetitorBase
 {
     public int MapSizeX;
     public int MapSizeY;
@@ -11,7 +11,7 @@ public class Competitor : CompetitorBase
     public const int FieldOfVision = 2;
 
     // How many iterations deep to traverse - this will get ugly quickly
-    public const int MaxSearchDepth = 50;
+    public const int MaxSearchDepth = 4;
 
     // State
     public Vector2D PlayerPosition;
@@ -63,12 +63,11 @@ public class Competitor : CompetitorBase
         var score = 0;
         var testPosition = PlayerPosition + direction.ToVector2d();
 
-        while (score <= MaxSearchDepth && DiscoveredMap[testPosition.X, testPosition.Y] == MapObjects.FreeSquare)
+        while (score <= 4 && DiscoveredMap[testPosition.X, testPosition.Y] == MapObjects.FreeSquare)
         {
-            score += 2;
+            score += 1;
             testPosition = testPosition + direction.ToVector2d();
         }
-        if (DiscoveredMap[testPosition.X, testPosition.Y] == MapObjects.Unknown) score += 1;
         return score;
     }
 
@@ -93,7 +92,7 @@ public class Competitor : CompetitorBase
         result = new Move
         {
             DirectionEnum = bestMoves[0].D,
-            Speed = 1
+            Speed = bestMoves[0].Score
         };
 
         // Update player position
@@ -101,8 +100,9 @@ public class Competitor : CompetitorBase
         {
             var newTrail = PlayerPosition + result.DirectionEnum.ToVector2d() * i;
             DiscoveredMap[newTrail.X, newTrail.Y] = MapObjects.Track;
-        }        
-        PlayerPosition += (result.DirectionEnum.ToVector2d() * result.Speed);
+        }
+        var speed = 1;// result.Speed;
+        PlayerPosition += (result.DirectionEnum.ToVector2d() * speed);
 
         return result;
     }
